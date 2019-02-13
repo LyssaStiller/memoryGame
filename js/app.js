@@ -62,38 +62,43 @@ function addToOpen(card) {
     }
     else if(openCards.length = 1){
         openCards.push(card)
-        if(openCards[1].firstChild.className === openCards[0].firstChild.className){
-            matchedCards.push(openCards[0], openCards[1])
-            setMatch()
-        }
-        else{
-            removeFromOpen()
-        }
+        // if(openCards[1].firstChild.className === openCards[0].firstChild.className){
+        //     matchedCards.push(openCards[0], openCards[1])
+        //     setMatch()
+        // }
+        // else{
+        //     removeFromOpen()
+        // }
     }
+     console.log("check it", openCards)
 
 }
 
-function setMatch(){
-   matchedCards.forEach(function(card){
-       card.classList.add("match");
-       removeFromOpen();
-       console.log("in theory,remove", openCards)
+// function setMatch(){
+//    matchedCards.forEach(function(card){
+//        card.classList.add("match");
+//        removeFromOpen();
 
-   })
-//    console.log("matched", matchedCards)
-}
 
-function removeFromOpen(){
-    console.log("before close", openCards)
-    openCards.forEach(function(card){
-        card.classList.remove("open", "show");
-        openCards.shift()
-    })
-    console.log("after close", openCards)
-}
+//    })
+// //    console.log("matched", matchedCards)
+// }
+
+// function removeFromOpen(){
+//     console.log("before close", openCards)
+//     openCards.forEach(function(card){
+//         card.classList.remove("open", "show");
+//         openCards.shift()
+//     })
+//     console.log("after close", openCards)
+//}
 
 function flipCard(card) {
-    card.classList.add("open", "show");
+    if(openCards.length < 2){
+        card.classList.toggle("open");
+        card.classList.toggle("show");
+    }
+
     addToOpen(card);
 }
 
