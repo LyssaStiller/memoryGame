@@ -1,9 +1,13 @@
 /*
  * Create a list that holds all of your cards
  */
+let moves = document.querySelector(".moves");
+let movesNum = Number(document.querySelector(".moves").innerHTML);
 
 const cardClasses = ["fa fa-diamond", "fa fa-paper-plane-o","fa fa-anchor", "fa fa-bolt","fa fa-cube", "fa fa-anchor", "fa fa-leaf",
 "fa fa-bicycle","fa fa-diamond","fa fa-bomb","fa fa-leaf","fa fa-bomb","fa fa-bolt","fa fa-bicycle","fa fa-paper-plane-o","fa fa-cube"]
+
+document.querySelector(".restart").addEventListener("click", restart)
 
 
 
@@ -55,51 +59,82 @@ var matchedCards = [];
 
 function addToOpen(card) {
 
-    // console.log("hi")
+    openCards.push(card)
 
-    if(!openCards.length){
-        openCards.push(card)
+    if(openCards.length === 2) {
+        lookForMatch()
     }
-    else if(openCards.length = 1){
-        openCards.push(card)
-        // if(openCards[1].firstChild.className === openCards[0].firstChild.className){
-        //     matchedCards.push(openCards[0], openCards[1])
-        //     setMatch()
-        // }
-        // else{
-        //     removeFromOpen()
-        // }
-    }
-     console.log("check it", openCards)
+     //console.log("check it", openCards)
 
 }
 
-// function setMatch(){
-//    matchedCards.forEach(function(card){
-//        card.classList.add("match");
-//        removeFromOpen();
+function lookForMatch(){
+
+    if(openCards[1].firstChild.className === openCards[0].firstChild.className){
+        matchedCards.push(openCards[0], openCards[1])
+        console.log("it's a match", "matchedCards arr:", matchedCards)
+        setMatch()
+    }
+    else{
+       setTimeout(function(){
+        removeFromOpen()
+       }, 2000)
+       //console.log("not a match")
+    }
+}
 
 
-//    })
-// //    console.log("matched", matchedCards)
-// }
+function setMatch(){
+   matchedCards.forEach(function(card){
+       card.classList.add("match");
+       removeFromOpen();
+   })
 
-// function removeFromOpen(){
-//     console.log("before close", openCards)
-//     openCards.forEach(function(card){
-//         card.classList.remove("open", "show");
-//         openCards.shift()
-//     })
-//     console.log("after close", openCards)
-//}
+   if(matchedCards.length === 16){
+    alert("You won Memory Game!")
+}
+
+}
+
+function removeFromOpen(){
+    //console.log("before close", openCards)
+    openCards.forEach(function(card){
+        card.classList.remove("open", "show");
+        //openCards.shift()
+    })
+    openCards.length = 0;
+    //console.log("after close", openCards)
+}
 
 function flipCard(card) {
+    moveCounter()
+
     if(openCards.length < 2){
         card.classList.toggle("open");
         card.classList.toggle("show");
+        addToOpen(card);
+    }
+}
+
+function moveCounter(){
+    movesNum++
+    moves.innerHTML = movesNum;
+
+}
+
+function restart(){
+    movesNum = 0;
+    moves.innerHTML = movesNum;
+
+    if(openCards.length){
+        removeFromOpen()
     }
 
-    addToOpen(card);
+    matchedCards.forEach(function(card){
+        card.classList.remove("match");
+    })
+    matchedCards.length = 0;
+
 }
 
 for(var i=0; i < cards.length; i++){
@@ -109,6 +144,7 @@ for(var i=0; i < cards.length; i++){
         }
     })
 }
+
 
 
 
